@@ -1,0 +1,20 @@
+/* 消息体的侧边柱条 */
+.left-bar-user {
+    width: 3px;
+    margin: 8px 16px 8px 3px;
+    border-radius: 32px;
+    background-color: #2e95d3;
+}
+
+.left-bar-chatGPT {
+    width: 3px;
+    margin: 8px 16px 8px 3px;
+    border-radius: 32px;
+    background-color: #70a597;
+}
+
+.sender-name {
+    font-family: 'BoldFont';
+    font-weight: bold;
+    font-size: 16px;
+}
