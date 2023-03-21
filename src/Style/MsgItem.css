@@ -4,6 +4,7 @@
     margin: 8px 16px 8px 3px;
     border-radius: 32px;
     background-color: #2e95d3;
+    flex-shrink: 0;
 }
 
 .left-bar-chatGPT {
@@ -11,6 +12,7 @@
     margin: 8px 16px 8px 3px;
     border-radius: 32px;
     background-color: #70a597;
+    flex-shrink: 0;
 }
 
 .sender-name {

@@ -42,4 +42,5 @@ html::-webkit-scrollbar {
 
 .flex-fill {
     flex: 1;
+    width: 0;
 }
