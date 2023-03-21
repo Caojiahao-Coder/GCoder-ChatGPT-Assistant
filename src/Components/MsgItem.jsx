@@ -13,21 +13,25 @@ import { chatApi } from '../Api/OpenAI';
 const MsgItem = (props) => {
     const [msg, setMsg] = useStateCallback('');
     const [loading, setLoading] = useState(false);
+    const [lockEdit, setLockEdit] = useState(false);
 
     useEffect(() => {
+        setLockEdit(props.loading);
         if (props.isUser) {
             setMsg(props.msg, () => props.scrollToBottom());
         } else {
             askChatGPT(props.msg);
         }
-    }, [props.isUser]);
+    }, [props.isUser, props.msg, props.loading]);
 
     /**
      * 向ChatGPT提问
      * @param {提问内容} content
      */
     function askChatGPT(content) {
+        if (content.trim().length === 0) return;
         setLoading(true);
+        props.lock();
         chatApi(content)
             .then((res) => {
                 setMsg(res.data.choices[0].message.content, () => props.unlock());
@@ -37,6 +41,8 @@ const MsgItem = (props) => {
 
     return (
         <div
+            key={props.index}
+            id={'msg-item-' + props.index}
             className="msg-item-root"
             style={{ padding: '12px 0', backgroundColor: props.isUser ? '#fff' : '#f5f5f5' }}
         >
@@ -65,7 +71,13 @@ const MsgItem = (props) => {
                                 <Skeleton loading={loading} active>
                                     <MsgContent
                                         content={msg}
+                                        lockInput={lockEdit}
+                                        isUser={props.isUser}
                                         refreshView={() => props.scrollToBottom()}
+                                        onReloadMsg={(content) => {
+                                            setMsg(content);
+                                            props.onReloadMsg(content);
+                                        }}
                                     />
                                 </Skeleton>
                             </div>

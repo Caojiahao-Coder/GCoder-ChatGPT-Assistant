@@ -4,6 +4,8 @@ import MsgItem from '../Components/MsgItem';
 import '../Style/App.css';
 import '../Style/Site.css';
 import { useStateCallback } from '../hooks/useStateCallback';
+import CompoundedSpace from 'antd/es/space';
+import MsgItemGroup from '../Components/MsgItemGroup';
 
 const App = () => {
     //存储当前用户输入的Msg
@@ -29,11 +31,6 @@ const App = () => {
             isUser: true,
             msg: msg,
         });
-        //提交一个等待ChatGPT回答的Msg
-        list.push({
-            isUser: false,
-            msg: msg,
-        });
         setMsg('');
         setMsgList(list, () => scrollToBottom());
     }
@@ -43,6 +40,14 @@ const App = () => {
      */
     function unlockInput() {
         setIsLock(false);
+        scrollToBottom();
+    }
+
+    /**
+     * 开始新的搜索限制其输入
+     */
+    function lockInput() {
+        setIsLock(true);
         scrollToBottom();
     }
 
@@ -71,10 +76,11 @@ const App = () => {
                 <div id="msg-list">
                     {msgList.map((item, index) => (
                         <div key={index}>
-                            <MsgItem
-                                isUser={item.isUser}
+                            <MsgItemGroup
+                                index={index}
                                 msg={item.msg}
                                 unlock={() => unlockInput()}
+                                lock={() => lockInput()}
                                 scrollToBottom={() => scrollToBottom()}
                             />
                         </div>

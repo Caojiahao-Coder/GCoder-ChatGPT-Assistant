@@ -1,8 +1,11 @@
-import { useEffect } from 'react';
+import { message, Space, Tooltip } from 'antd';
+import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useStateCallback } from '../hooks/useStateCallback';
+import '../Style/MsgContent.css';
+import { EditOutlined } from '@ant-design/icons';
 
 /**
  * 使用Markdown来渲染的消息体 组件
@@ -10,33 +13,81 @@ import { useStateCallback } from '../hooks/useStateCallback';
 const MsgContent = (props) => {
     const [content, setContent] = useStateCallback('');
 
+    const [lockEdit, setLockEdit] = useState(false);
+
+    const [isEdit, setIsEdit] = useState(false);
+
     useEffect(() => {
         setContent(props.content, () => props.refreshView());
-    }, [props.content]);
+        setLockEdit(props.lockInput);
+    }, [props.content, props.lockInput]);
+
+    function reloadMsg() {
+        props.onReloadMsg(content);
+    }
 
     return (
-        // 使用Markdown进行代码渲染
-        <ReactMarkdown
-            children={content}
-            components={{
-                code({ node, inline, className, children, ...props }) {
-                    const match = /language-(\w+)/.exec(className || '');
-                    return !inline && match ? (
-                        <SyntaxHighlighter
-                            children={String(children).replace(/\n$/, '')}
-                            style={vs}
-                            language={match[1]}
-                            PreTag="div"
-                            {...props}
-                        />
-                    ) : (
-                        <code className={className} {...props}>
-                            {children}
-                        </code>
-                    );
-                },
-            }}
-        />
+        <div id="msg-content-root">
+            {isEdit ? (
+                <></>
+            ) : (
+                <ReactMarkdown
+                    children={content}
+                    components={{
+                        code({ node, inline, className, children, ...props }) {
+                            const match = /language-(\w+)/.exec(className || '');
+                            return !inline && match ? (
+                                <SyntaxHighlighter
+                                    children={String(children).replace(/\n$/, '')}
+                                    style={vs}
+                                    language={match[1]}
+                                    PreTag="div"
+                                    {...props}
+                                />
+                            ) : (
+                                <code className={className} {...props}>
+                                    {children}
+                                </code>
+                            );
+                        },
+                    }}
+                />
+            )}
+
+            {props.isUser && !lockEdit ? (
+                <Space id="content-tools">
+                    <div className="tool-item">
+                        <Tooltip title="编辑当前会话内容">
+                            <EditOutlined onClick={() => setIsEdit(true)} />
+                        </Tooltip>
+                    </div>
+                </Space>
+            ) : (
+                <></>
+            )}
+
+            {isEdit ? (
+                <input
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    onKeyDown={(e) => {
+                        const keyCode = e.key.toString().toLowerCase();
+                        if (keyCode === 'enter') {
+                            setIsEdit(false);
+                            if (content.trim().length === 0) {
+                                message.warning('抱歉，问题不可以为空。');
+                                setContent(props.content, () => reloadMsg());
+                            } else reloadMsg();
+                        } else if (keyCode === 'escape') {
+                            setIsEdit(false);
+                            setContent(props.content);
+                        }
+                    }}
+                />
+            ) : (
+                <></>
+            )}
+        </div>
     );
 };
 export default MsgContent;

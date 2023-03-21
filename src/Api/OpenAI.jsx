@@ -28,6 +28,6 @@ export const chatApi = (content) =>
             'Access-Control-Allow-Credentials': 'true',
             Authorization: 'Bearer ' + OPENAI_KEY,
         },
-        // 120 * 1s
-        timeout: 1000 * 120,
+        // 60 * 1s * 10
+        timeout: 1000 * 60 * 10,
     });
