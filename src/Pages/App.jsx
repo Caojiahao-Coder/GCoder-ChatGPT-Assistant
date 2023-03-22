@@ -1,11 +1,10 @@
-import { Col, message, Row, Spin } from 'antd';
+import { Col, message, Row, Spin, Checkbox, Button, Space } from 'antd';
 import { useEffect, useState } from 'react';
-import MsgItem from '../Components/MsgItem';
 import '../Style/App.css';
 import '../Style/Site.css';
 import { useStateCallback } from '../hooks/useStateCallback';
-import CompoundedSpace from 'antd/es/space';
 import MsgItemGroup from '../Components/MsgItemGroup';
+import { changeKeepSession } from '../Api/OpenAI';
 
 const App = () => {
     //存储当前用户输入的Msg
@@ -114,6 +113,15 @@ const App = () => {
                                     style={{ position: 'absolute', top: 11, right: 12 }}
                                     spinning={isLock}
                                 />
+
+                                <div style={{ marginTop: 8, textAlign: 'right' }}>
+                                    <Checkbox
+                                        defaultChecked={true}
+                                        onChange={(e) => changeKeepSession(e.target.checked)}
+                                    >
+                                        启用持续性Session会话模式
+                                    </Checkbox>
+                                </div>
                             </div>
                         </Col>
                     </Row>

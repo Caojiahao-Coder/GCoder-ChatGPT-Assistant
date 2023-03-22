@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useStateCallback } from '../hooks/useStateCallback';
 import MsgContent from './MsgContent';
 import '../Style/MsgItem.css';
-import { chatApi } from '../Api/OpenAI';
+import { addAIAnswer, chatApi } from '../Api/OpenAI';
 
 /**
  * 消息对象
@@ -14,6 +14,8 @@ const MsgItem = (props) => {
     const [msg, setMsg] = useStateCallback('');
     const [loading, setLoading] = useState(false);
     const [lockEdit, setLockEdit] = useState(false);
+
+    const [firstLoaded, setFirstLoaded] = useState(false);
 
     useEffect(() => {
         setLockEdit(props.loading);
@@ -32,11 +34,25 @@ const MsgItem = (props) => {
         if (content.trim().length === 0) return;
         setLoading(true);
         props.lock();
-        chatApi(content)
+        chatApi(content, firstLoaded ? Number(String(props.index).split('-')[1]) : -1)
             .then((res) => {
-                setMsg(res.data.choices[0].message.content, () => props.unlock());
+                if (res.status === 200) {
+                    const content = res.data.choices[0].message.content;
+                    addAIAnswer(
+                        content,
+                        firstLoaded ? Number(String(props.index).split('-')[1]) : -1
+                    );
+                    setMsg(content, () => props.unlock());
+                } else {
+                    setMsg('抱歉，发生了一些意外，请稍后重新尝试。', () => props.unlock());
+                    setFirstLoaded(true);
+                    setLoading(false);
+                }
             })
-            .finally(() => setLoading(false));
+            .finally(() => {
+                setFirstLoaded(true);
+                setLoading(false);
+            });
     }
 
     return (
@@ -58,7 +74,7 @@ const MsgItem = (props) => {
                     <div>
                         <Space>
                             <div className="sender-name ">
-                                {props.isUser ? 'Your' : 'ChatGPT AI'}
+                                {props.isUser ? 'You' : 'ChatGPT AI'}
                             </div>
                         </Space>
 
