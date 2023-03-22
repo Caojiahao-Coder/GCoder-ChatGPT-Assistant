@@ -15,12 +15,15 @@ let keepSession = true;
  */
 function generateChatData(content, index) {
     if (!keepSession) {
+        //fix：chat gpt 需要传入的是一个数组Msg 2023年3月22日
         var data = {
             model: MODEL_ID,
-            messages: {
-                role: 'user',
-                content: content,
-            },
+            messages: [
+                {
+                    role: 'user',
+                    content: content,
+                },
+            ],
             temperature: 0.6,
         };
         return data;
