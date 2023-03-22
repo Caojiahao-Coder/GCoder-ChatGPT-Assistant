@@ -1,4 +1,4 @@
-import { Col, message, Row, Spin, Checkbox, Button, Space } from 'antd';
+import { Col, message, Row, Spin, Checkbox } from 'antd';
 import { useEffect, useState } from 'react';
 import '../Style/App.css';
 import '../Style/Site.css';
@@ -7,8 +7,12 @@ import MsgItemGroup from '../Components/MsgItemGroup';
 import { changeKeepSession } from '../Api/OpenAI';
 
 const App = () => {
+    const ENTER_KEY = 'enter';
+
+    const UP_KEY = 'arrowup';
+
     //存储当前用户输入的Msg
-    const [msg, setMsg] = useState('');
+    const [msg, setMsg] = useStateCallback('');
 
     //当前的Msg列表
     const [msgList, setMsgList] = useStateCallback([]);
@@ -16,12 +20,33 @@ const App = () => {
     //判断ChatGPT是否在生成回答 如果在生成回答我们就需要限制提交新的回答
     const [isLock, setIsLock] = useState(false);
 
-    //发送Msg
+    //搜索历史
+    const [msgInputHistory, setMsgInputHistory] = useState([]);
+    const [showHistoryDialog, setShowHistoryDialog] = useState(false);
+
+    /**
+     * 当点击History Item
+     */
+    function onClickMsgHistory(msgContent) {
+        //设置搜索内容
+        setMsg(msgContent);
+        setShowHistoryDialog(false);
+    }
+
+    /**
+     * 发送Msg
+     * @returns
+     */
     function sendMsg() {
         if (msg.trim().length === 0) {
             message.warning('抱歉，你的提问内容不可以为空.');
             return;
         }
+
+        setShowHistoryDialog(false);
+
+        //记录搜索历史
+        recordSearchHistory(msg);
 
         setIsLock(true);
         let list = msgList.concat();
@@ -32,6 +57,16 @@ const App = () => {
         });
         setMsg('');
         setMsgList(list, () => scrollToBottom());
+    }
+
+    /**
+     * 记录搜索历史
+     */
+    function recordSearchHistory(content) {
+        const history = msgInputHistory.concat();
+        history.push(content);
+        const distinctList = [...new Set(history)];
+        setMsgInputHistory(distinctList);
     }
 
     /**
@@ -97,7 +132,22 @@ const App = () => {
                             xxl={{ span: 18, offset: 3 }}
                         >
                             <div style={{ position: 'relative' }}>
+                                <div
+                                    id="search-msg-history"
+                                    style={{ display: showHistoryDialog ? 'block' : 'none' }}
+                                >
+                                    <div id="search-msg-history-title">历史搜索</div>
+                                    <ul>
+                                        {msgInputHistory.map((item, index) => (
+                                            <li key={index} onClick={() => onClickMsgHistory(item)}>
+                                                {item}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+
                                 <input
+                                    autoComplete="off"
                                     id="msg-input"
                                     type="text"
                                     disabled={isLock}
@@ -106,7 +156,13 @@ const App = () => {
                                     onChange={(e) => setMsg(e.target.value)}
                                     onKeyUp={(e) => {
                                         const keyCode = e.key.toLowerCase();
-                                        if (keyCode === 'enter') sendMsg();
+                                        //回车开始搜索
+                                        if (keyCode === ENTER_KEY) sendMsg();
+
+                                        //上键显示搜索历史
+                                        if (keyCode === UP_KEY) {
+                                            setShowHistoryDialog(true);
+                                        }
                                     }}
                                 />
                                 <Spin
@@ -117,7 +173,10 @@ const App = () => {
                                 <div style={{ marginTop: 8, textAlign: 'right' }}>
                                     <Checkbox
                                         defaultChecked={true}
-                                        onChange={(e) => changeKeepSession(e.target.checked)}
+                                        onChange={(e) => {
+                                            setMsgList([], () => scrollToBottom());
+                                            changeKeepSession(e.target.checked);
+                                        }}
                                     >
                                         启用持续性Session会话模式
                                     </Checkbox>
