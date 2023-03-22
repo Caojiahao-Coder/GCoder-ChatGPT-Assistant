@@ -47,8 +47,6 @@ function generateChatData(content, index) {
         temperature: 0.6,
     };
 
-    console.log(msgHistoryList);
-
     return data;
 }
 
@@ -97,5 +95,4 @@ export const addAIAnswer = (content, index) => {
             content: content,
         };
     }
-    console.log(msgHistoryList);
 };
