@@ -52,6 +52,7 @@ const MsgItem = (props) => {
             .finally(() => {
                 setFirstLoaded(true);
                 setLoading(false);
+                props.unlock();
             });
     }
 
