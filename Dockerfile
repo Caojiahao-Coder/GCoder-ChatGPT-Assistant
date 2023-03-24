@@ -6,9 +6,12 @@ WORKDIR /usr/src/app
 
 COPY package.json .
 
-RUN npm install
+RUN npm config set registry https://registry.npm.taobao.org
+
+RUN npm install --registry=https://registry.npm.taobao.org
 
 COPY . .
+
 RUN npm run build
 
 RUN npm install -g serve

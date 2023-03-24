@@ -22,7 +22,7 @@ services:
     assistant-1:
         container_name: 'assistant-1'
         restart: always
-        image: gcoder-chatgpt-assistant:latest
+        image: gcoder-chatgpt-assistant:v1.5
         environment:
             - 'TZ=Asia/Shanghai'
         networks:
@@ -33,7 +33,7 @@ services:
     assistant-2:
         container_name: 'assistant-2'
         restart: always
-        image: gcoder-chatgpt-assistant:latest
+        image: gcoder-chatgpt-assistant:v1.5
         environment:
             - 'TZ=Asia/Shanghai'
         networks:
@@ -44,7 +44,7 @@ services:
     assistant-3:
         container_name: 'assistant-3'
         restart: always
-        image: gcoder-chatgpt-assistant:latest
+        image: gcoder-chatgpt-assistant:v1.5
         environment:
             - 'TZ=Asia/Shanghai'
         networks:
