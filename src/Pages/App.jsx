@@ -175,8 +175,14 @@ const App = () => {
 
                                 <div style={{ marginTop: 8, textAlign: 'right' }}>
                                     <Checkbox
-                                        defaultChecked={true}
+                                        defaultChecked={
+                                            localStorage.getItem('keepSession') === null
+                                                ? false
+                                                : String(localStorage.getItem('keepSession')) ===
+                                                  'true'
+                                        }
                                         onChange={(e) => {
+                                            localStorage.setItem('keepSession', e.target.checked);
                                             setMsgList([], () => scrollToBottom());
                                             changeKeepSession(e.target.checked);
                                         }}
