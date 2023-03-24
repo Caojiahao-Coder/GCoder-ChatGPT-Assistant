@@ -41,7 +41,11 @@ const UpdatePrompt = () => {
                 <>
                     <div>当前版本：{logItem.Version}</div>
                     <div>更新时间：{logItem.Date}</div>
-                    <div>更新内容: {logItem.Content}</div>
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: '<br/><strong>更新内容:</strong><br/>' + logItem.Content,
+                        }}
+                    ></div>
                 </>
             ),
         });

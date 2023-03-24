@@ -4,7 +4,7 @@
         {
             "Title": "支持更新日志的显示🐱‍🚀",
             "Date": "2023年3月24日",
-            "Content": "客户端支持更新日志推送显示\r\n支持记住是否启用持久性Session会话模式",
+            "Content": "1. 客户端支持更新日志推送显示<br/>2. 支持记住是否启用持久性Session会话模式",
             "Author": "Jiahao Cao",
             "Version": "V1.5",
             "VersionToken": "9b6c510b-491e-45cf-8f8a-2e799e59d3c3"
