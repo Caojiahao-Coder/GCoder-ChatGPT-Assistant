@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+    nginx:
+        container_name: nginx-server
+        restart: always
+        image: nginx:latest
+        networks:
+            - main
+        ports:
+            - '2565:80'
+        volumes:
+            - D:/ChatGPT_Assistant/nginx.conf:/etc/nginx/nginx.conf
+        environment:
+            - 'TZ=Asia/Shanghai'
+        depends_on:
+            - assistant-1
+            - assistant-2
+            - assistant-3
+
+    #配置第一台assistant
+    assistant-1:
+        container_name: 'assistant-1'
+        restart: always
+        image: gcoder-chatgpt-assistant:latest
+        environment:
+            - 'TZ=Asia/Shanghai'
+        networks:
+            main:
+                ipv4_address: 10.10.2.101
+
+    #配置第二台assistant
+    assistant-2:
+        container_name: 'assistant-2'
+        restart: always
+        image: gcoder-chatgpt-assistant:latest
+        environment:
+            - 'TZ=Asia/Shanghai'
+        networks:
+            main:
+                ipv4_address: 10.10.2.102
+
+    #配置第三台assistant
+    assistant-3:
+        container_name: 'assistant-3'
+        restart: always
+        image: gcoder-chatgpt-assistant:latest
+        environment:
+            - 'TZ=Asia/Shanghai'
+        networks:
+            main:
+                ipv4_address: 10.10.2.103
+
+#使用独立网络
+networks:
+    main:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: 10.10.2.0/24
