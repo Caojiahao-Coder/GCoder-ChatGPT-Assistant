@@ -141,7 +141,7 @@ const App = () => {
                     ))}
                 </div>
 
-                <div style={{ padding: '16px 0', borderTop: '1px solid #f1f1f1' }}>
+                <div id="input-panel" style={{ padding: '16px 0', borderTop: '1px solid #f1f1f1' }}>
                     <Row gutter={24} style={{ margin: 0 }}>
                         <Col
                             xs={{ span: 24, offset: 0 }}

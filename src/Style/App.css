@@ -20,6 +20,7 @@
 }
 
 #footer {
+    z-index: 100;
     text-align: center;
     color: #f1f1f1;
     font-family: 'MainFont';
@@ -39,10 +40,11 @@
     font-weight: bold;
     font-family: 'TitleFont';
     background-color: white;
+    cursor: text;
 }
 
 #msg-input:focus {
-    box-shadow: 4px 4px 16px #bbb;
+    box-shadow: 0 0 16px #bbb;
 }
 
 #search-msg-history {

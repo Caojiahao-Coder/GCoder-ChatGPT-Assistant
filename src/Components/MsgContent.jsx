@@ -20,7 +20,24 @@ const MsgContent = (props) => {
     useEffect(() => {
         setContent(props.content, () => props.refreshView());
         setLockEdit(props.lockInput);
+        window.removeEventListener('click', onViewClick);
+        window.addEventListener('click', onViewClick);
+        return () => {
+            window.removeEventListener('click', onViewClick);
+        };
     }, [props.content, props.lockInput]);
+
+    const onViewClick = (e) => {
+        var elem = e.target;
+        while (elem) {
+            if ((elem.id && elem.id === 'chat-content-edit') || elem.id === 'chat-edit') {
+                return;
+            }
+            elem = elem.parentNode;
+        }
+        setContent(props.content);
+        setIsEdit(false);
+    };
 
     function reloadMsg() {
         props.onReloadMsg(content);
@@ -58,7 +75,7 @@ const MsgContent = (props) => {
                 <Space id="content-tools">
                     <div className="tool-item">
                         <Tooltip title="编辑当前会话内容">
-                            <EditOutlined onClick={() => setIsEdit(true)} />
+                            <EditOutlined id="chat-edit" onClick={() => setIsEdit(true)} />
                         </Tooltip>
                     </div>
                 </Space>
@@ -68,6 +85,7 @@ const MsgContent = (props) => {
 
             {isEdit ? (
                 <input
+                    id="chat-content-edit"
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     onKeyDown={(e) => {
