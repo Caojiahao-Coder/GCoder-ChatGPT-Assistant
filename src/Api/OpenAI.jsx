@@ -5,7 +5,10 @@ import { MODEL_ID, OPENAI_KEY } from '../config';
 let msgHistoryList = [];
 
 //标记是否进行持久化Session
-let keepSession = true;
+let keepSession =
+    localStorage.getItem('keepSession') == null
+        ? false
+        : String(localStorage.getItem('keepSession')) === 'true';
 
 /**
  * 维护和生成messages
