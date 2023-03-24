@@ -5,11 +5,13 @@ import '../Style/Site.css';
 import { useStateCallback } from '../hooks/useStateCallback';
 import MsgItemGroup from '../Components/MsgItemGroup';
 import { changeKeepSession } from '../Api/OpenAI';
+import UpdatePrompt from '../Components/UpdatePrompt';
 
 const App = () => {
+    //#region 常量的Key Code
     const ENTER_KEY = 'enter';
-
     const UP_KEY = 'arrowup';
+    //#endregion
 
     //存储当前用户输入的Msg
     const [msg, setMsg] = useStateCallback('');
@@ -92,6 +94,7 @@ const App = () => {
         if (divTarget) divTarget.scrollTop = divTarget.scrollHeight;
     }
 
+    //得到消息列表
     var divTarget = document.getElementById('msg-list');
 
     useEffect(() => {
@@ -192,6 +195,8 @@ const App = () => {
                 <div style={{ marginTop: 6 }} />
                 Copyright © Jiahao Cao.
             </div>
+
+            <UpdatePrompt />
         </div>
     );
 };
