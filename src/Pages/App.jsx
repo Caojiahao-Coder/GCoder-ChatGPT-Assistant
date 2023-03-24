@@ -101,7 +101,24 @@ const App = () => {
         if (!divTarget) divTarget = document.getElementById('msg-list');
         //监听Div的高度变化
         new ResizeObserver(scrollToBottom).observe(divTarget);
+
+        window.removeEventListener('click', onOtherViewClick);
+        window.addEventListener('click', onOtherViewClick);
+        return () => {
+            window.removeEventListener('click', onOtherViewClick);
+        };
     }, []);
+
+    const onOtherViewClick = (e) => {
+        var elem = e.target;
+        while (elem) {
+            if (elem.id && elem.id === 'search-msg-history') {
+                return;
+            }
+            elem = elem.parentNode;
+        }
+        setShowHistoryDialog(false);
+    };
 
     return (
         <div
