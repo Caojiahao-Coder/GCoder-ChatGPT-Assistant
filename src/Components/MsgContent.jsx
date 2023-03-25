@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { useStateCallback } from '../hooks/useStateCallback';
+import { useStateCallback } from '../Hooks/useStateCallback';
 import '../Style/MsgContent.css';
 import { EditOutlined } from '@ant-design/icons';
 

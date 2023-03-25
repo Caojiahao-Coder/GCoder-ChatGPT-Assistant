@@ -2,7 +2,7 @@
     position: relative;
 }
 
-#enable-select-list-root > #select-input {
+#enable-select-list-root > #enable-select-input {
     position: absolute;
     top: 0;
     width: 0;
@@ -10,28 +10,27 @@
     left: 0;
     padding: 0;
     margin: 0;
+    outline: none;
+    border: 0;
 }
 
-#enable-select-list-root > #select-list {
+#enable-select-list-root > #enable-select-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-#enable-select-list-root > #select-list > li {
+#enable-select-list-root > #enable-select-list > li {
     padding: 8px 16px;
+    cursor: pointer;
 }
 
-#enable-select-list-root > #select-list > li:last-child {
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+#enable-select-list-root > #enable-select-list > li:last-child {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 
-#enable-select-list-root > #select-list > li:hover {
-    background-color: #f1f1f1;
-}
-
-#enable-select-list-root > #select-list > .selected {
-    background-color: #70a59742;
+#enable-select-list-root > #enable-select-list > .selected {
+    background-color: #70a59742 !important;
     color: #333;
 }

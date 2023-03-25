@@ -1,5 +1,5 @@
 {
-    "VersionToken": "9b6c510b-491e-45cf-8f8a-2e799e59d3c3",
+    "VersionToken": "8a4f7b90-c2ef-4e1d-9d1b-5c5d5b5aa5f5",
     "LogList": [
         {
             "Title": "支持更新日志的显示🐱‍🚀",
@@ -8,6 +8,14 @@
             "Author": "Jiahao Cao",
             "Version": "V1.5",
             "VersionToken": "9b6c510b-491e-45cf-8f8a-2e799e59d3c3"
+        },
+        {
+            "Title": "提供全新的输入体验✨",
+            "Date": "2023年3月25日",
+            "Content": "1. 升级全部的辅助输入对话框<br/>2. 支持通过‘ / ’进行智能提示输入<br/>",
+            "Author": "Jiahao Cao",
+            "Version": "V1.6",
+            "VersionToken": "8a4f7b90-c2ef-4e1d-9d1b-5c5d5b5aa5f5"
         }
     ]
 }

@@ -1,16 +1,21 @@
-import { Col, message, Row, Spin, Checkbox } from 'antd';
-import { useEffect, useState } from 'react';
+import { Col, message, Row, Spin, Checkbox, Space, Button } from 'antd';
+import { useEffect, useRef, useState } from 'react';
 import '../Style/App.css';
 import '../Style/Site.css';
-import { useStateCallback } from '../hooks/useStateCallback';
+import { SendOutlined } from '@ant-design/icons';
+import { useStateCallback } from '../Hooks/useStateCallback';
 import MsgItemGroup from '../Components/MsgItemGroup';
 import { changeKeepSession } from '../Api/OpenAI';
 import UpdatePrompt from '../Components/UpdatePrompt';
+import SmartInputHit from '../Components/SmartInputHit';
 
 const App = () => {
     //#region 常量的Key Code
-    const ENTER_KEY = 'enter';
-    const UP_KEY = 'arrowup';
+    const ENTER_KEY = 'Enter';
+    const UP_KEY = 'ArrowUp';
+    const ESC_KEY = 'Escape';
+    const SMART_HOT_KEY_EN = '/';
+    const SMART_HOT_KEY_CN = 229;
     //#endregion
 
     //存储当前用户输入的Msg
@@ -26,6 +31,12 @@ const App = () => {
     const [msgInputHistory, setMsgInputHistory] = useState([]);
     const [showHistoryDialog, setShowHistoryDialog] = useState(false);
 
+    //智能搜索框
+    const [showSmartInputHit, setShowSmartInputHit] = useState(false);
+
+    //输入框的Ref
+    const searchRef = useRef();
+
     /**
      * 当点击History Item
      */
@@ -33,6 +44,14 @@ const App = () => {
         //设置搜索内容
         setMsg(msgContent);
         setShowHistoryDialog(false);
+        setSearchInputFocus();
+    }
+
+    /**
+     * 设置搜索输入的焦点
+     */
+    function setSearchInputFocus() {
+        if (searchRef.current) searchRef.current.focus();
     }
 
     /**
@@ -44,8 +63,6 @@ const App = () => {
             message.warning('抱歉，你的提问内容不可以为空.');
             return;
         }
-
-        setShowHistoryDialog(false);
 
         //记录搜索历史
         recordSearchHistory(msg);
@@ -112,11 +129,12 @@ const App = () => {
     const onOtherViewClick = (e) => {
         var elem = e.target;
         while (elem) {
-            if (elem.id && elem.id === 'search-msg-history') {
+            if ((elem.id && elem.id === 'search-msg-history') || elem.id === 'smart-input-hit') {
                 return;
             }
             elem = elem.parentNode;
         }
+        setShowSmartInputHit(false);
         setShowHistoryDialog(false);
     };
 
@@ -152,43 +170,111 @@ const App = () => {
                             xxl={{ span: 18, offset: 3 }}
                         >
                             <div style={{ position: 'relative' }}>
-                                <div
-                                    id="search-msg-history"
-                                    style={{ display: showHistoryDialog ? 'block' : 'none' }}
-                                >
-                                    <div id="search-msg-history-title">历史搜索</div>
-                                    <ul>
-                                        {msgInputHistory.map((item, index) => (
-                                            <li key={index} onClick={() => onClickMsgHistory(item)}>
-                                                {item}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-
-                                <input
-                                    autoComplete="off"
-                                    id="msg-input"
-                                    type="text"
-                                    disabled={isLock}
-                                    placeholder={isLock ? 'ChatGPT-Thinking...' : '@ChatGPT-Msg'}
-                                    value={msg}
-                                    onChange={(e) => setMsg(e.target.value)}
-                                    onKeyUp={(e) => {
-                                        const keyCode = e.key.toLowerCase();
-                                        //回车开始搜索
-                                        if (keyCode === ENTER_KEY) sendMsg();
-
-                                        //上键显示搜索历史
-                                        if (keyCode === UP_KEY) {
-                                            setShowHistoryDialog(true);
-                                        }
+                                <SmartInputHit
+                                    title="搜索历史记录"
+                                    dataSource={function () {
+                                        const list = [];
+                                        msgList.forEach((element) => {
+                                            list.push({
+                                                value: element.msg,
+                                                item: element.msg,
+                                            });
+                                        });
+                                        return list;
+                                    }}
+                                    show={showHistoryDialog}
+                                    submit={(item) => onClickMsgHistory(item)}
+                                    onCancel={() => {
+                                        setShowHistoryDialog(false);
+                                        setSearchInputFocus();
                                     }}
                                 />
-                                <Spin
-                                    style={{ position: 'absolute', top: 11, right: 12 }}
-                                    spinning={isLock}
+
+                                <SmartInputHit
+                                    title="智能输入提示"
+                                    dataSource={function () {
+                                        return [
+                                            {
+                                                value: 'transfer',
+                                                item: '翻译',
+                                            },
+                                            {
+                                                value: 'create_sql',
+                                                item: '创建Sql',
+                                            },
+                                        ];
+                                    }}
+                                    show={showSmartInputHit}
+                                    submit={(item) => message.info('智能输入功能都在输入中...')}
+                                    onCancel={() => {
+                                        setShowSmartInputHit(false);
+                                        setSearchInputFocus();
+                                    }}
                                 />
+
+                                <div className="flex-row">
+                                    <input
+                                        id="msg-input"
+                                        ref={searchRef}
+                                        className="flex-fill"
+                                        autoComplete="off"
+                                        type="text"
+                                        disabled={isLock}
+                                        placeholder={
+                                            isLock ? 'ChatGPT-Thinking...' : '@ChatGPT - Message'
+                                        }
+                                        value={msg}
+                                        onChange={(e) => setMsg(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            //回车开始搜索
+                                            if (e.key === ENTER_KEY) {
+                                                e.preventDefault();
+                                                setShowHistoryDialog(false);
+                                                setShowSmartInputHit(false);
+                                                sendMsg();
+                                            }
+
+                                            //上键显示搜索历史
+                                            if (e.key === UP_KEY) {
+                                                e.preventDefault();
+                                                setShowSmartInputHit(false);
+                                                setShowHistoryDialog(true);
+                                            }
+
+                                            //ESC取消搜索历史提示
+                                            if (e.key === ESC_KEY) {
+                                                e.preventDefault();
+                                                setShowHistoryDialog(false);
+                                                setShowSmartInputHit(false);
+                                                setSearchInputFocus();
+                                            }
+
+                                            //显示智能输入框
+                                            if (e.key === SMART_HOT_KEY_EN) {
+                                                e.preventDefault();
+                                                setShowHistoryDialog(false);
+                                                setShowSmartInputHit(true);
+                                            }
+                                        }}
+                                    />
+
+                                    <Button
+                                        id="btn-send"
+                                        size="large"
+                                        type="text"
+                                        loading={isLock}
+                                        onClick={() => sendMsg()}
+                                        icon={
+                                            <SendOutlined
+                                                id="send-icon"
+                                                style={{
+                                                    lineHeight: '30px',
+                                                    fontWeight: 'bold',
+                                                }}
+                                            />
+                                        }
+                                    />
+                                </div>
 
                                 <div style={{ marginTop: 8, textAlign: 'right' }}>
                                     <Checkbox

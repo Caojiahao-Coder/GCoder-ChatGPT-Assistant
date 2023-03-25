@@ -1,6 +1,6 @@
 import { Col, Row, Skeleton, Space } from 'antd';
 import { useEffect, useState } from 'react';
-import { useStateCallback } from '../hooks/useStateCallback';
+import { useStateCallback } from '../Hooks/useStateCallback';
 import MsgContent from './MsgContent';
 import '../Style/MsgItem.css';
 import { addAIAnswer, chatApi } from '../Api/OpenAI';
