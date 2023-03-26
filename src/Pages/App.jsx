@@ -205,7 +205,7 @@ const App = () => {
                                         ];
                                     }}
                                     show={showSmartInputHit}
-                                    submit={(item) => message.info('智能输入功能都在输入中...')}
+                                    submit={(item) => message.info('智能输入功能正在开发中...')}
                                     onCancel={() => {
                                         setShowSmartInputHit(false);
                                         setSearchInputFocus();
