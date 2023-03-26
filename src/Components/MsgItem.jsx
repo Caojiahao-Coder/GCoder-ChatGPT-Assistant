@@ -17,6 +17,8 @@ const MsgItem = (props) => {
 
     const [firstLoaded, setFirstLoaded] = useState(false);
 
+    const [isFailed, setIsFailed] = useState(false);
+
     useEffect(() => {
         setLockEdit(props.loading);
         if (props.isUser) {
@@ -44,10 +46,11 @@ const MsgItem = (props) => {
                     );
                     setMsg(content, () => props.unlock());
                 } else {
-                    setMsg('抱歉，发生了一些意外，请稍后重新尝试。', () => props.unlock());
-                    setFirstLoaded(true);
-                    setLoading(false);
+                    setIsFailed(false);
                 }
+            })
+            .catch(() => {
+                setIsFailed(true);
             })
             .finally(() => {
                 setFirstLoaded(true);
@@ -90,6 +93,7 @@ const MsgItem = (props) => {
                                         content={msg}
                                         lockInput={lockEdit}
                                         isUser={props.isUser}
+                                        isFailed={isFailed}
                                         refreshView={() => props.scrollToBottom()}
                                         onReloadMsg={(content) => {
                                             setMsg(content);

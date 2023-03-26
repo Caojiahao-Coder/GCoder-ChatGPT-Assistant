@@ -47,6 +47,7 @@ function generateChatData(content, index) {
         };
     }
 
+    //请求实体数据
     var data = {
         model: MODEL_ID,
         messages: index === -1 ? msgHistoryList : msgHistoryList.slice(0, index + 1),
@@ -66,7 +67,7 @@ export const chatApi = (content, index) =>
         headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Credentials': 'true',
-            Authorization: 'Bearer ' + OPENAI_KEY,
+            Authorization: `Bearer ${OPENAI_KEY}`,
         },
         // 60 * 1s * 10
         timeout: 1000 * 60 * 10,
