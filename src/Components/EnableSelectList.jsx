@@ -18,6 +18,10 @@ const EnableSelectList = (props) => {
     useEffect(() => {
         setDataList(props.dataSource);
 
+        //默认清空上次的选中项目
+        curSelectedIndex = 0;
+        markItem(listRef.current.querySelectorAll('li'));
+
         const input = inputRef.current;
 
         if (props.isShow && inputRef.current)
