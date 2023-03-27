@@ -1,0 +1,207 @@
+#about-root {
+    background-color: white;
+    box-shadow: 0 0 6px #00926b;
+    padding: 8px 16px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+#about-root > * {
+    font-family: 'MainFont';
+    font-size: 18px !important;
+}
+
+#about-root > h1 {
+    font-weight: bold;
+    font-family: 'BoldFont';
+    font-size: 26px !important;
+    margin-top: 0;
+}
+
+#about-content > div {
+    margin-bottom: 8px;
+}
+
+#about-content > h2 {
+    font-weight: bold;
+    font-family: 'BoldFont';
+    font-size: 24px !important;
+}
+
+#about-content > ul {
+    list-style: none;
+    padding: 0px 16px;
+}
+
+#about-content > ul > li {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+#about-content > ul > li:last-child {
+    margin-bottom: 0;
+}
+
+.feature-item {
+    position: relative;
+    height: 24px;
+}
+
+.feature-item > .done-item {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #bbb;
+    box-shadow: 0 0 6px #eee;
+    border-radius: 4px;
+}
+
+.feature-item > .done::before {
+    top: -6px;
+    left: 3px;
+    position: absolute;
+    color: #0fa27e;
+    font-size: 28px;
+    height: 26px;
+    line-height: 26px;
+    content: '✔';
+    text-shadow: 0 0 2px #333;
+    transform: rotate(10deg);
+}
+
+.feature-item > .feature-content {
+    position: absolute;
+    top: 0;
+    left: 32px;
+    height: 24px;
+    line-height: 24px;
+    display: inline-block;
+}
+
+.update-item {
+    margin-bottom: 16px;
+    padding: 0 16px;
+    border-bottom: 2px dashed #ddd;
+}
+.update-item:last-child {
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+
+.update-item > .update-title {
+    font-weight: bold;
+    font-family: 'BoldFont';
+    font-size: 18px;
+}
+
+.update-item > div {
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.update-item:last-child {
+    margin-bottom: 0;
+}
+
+.curVersion {
+    padding: 2px 6px;
+    background-color: #0fa27e;
+    color: white;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: 'MainFont';
+    font-weight: 400;
+}
+
+.update-info {
+    margin-left: 8px;
+    padding-bottom: 0 !important;
+}
+
+.update-info > div {
+    padding-bottom: 8px;
+}
+
+.update-info > div:last-child {
+    padding-bottom: 0px;
+}
+
+.update-line {
+    flex-shrink: 0;
+    margin: 0px 18px 0px 12px;
+    border-radius: 16px;
+    width: 4px;
+    background-color: #0fa27e;
+    box-shadow: 0 0 4px #bbb;
+}
+
+.update-detail {
+    padding: 4px 0;
+}
+
+.update-detail > div {
+    padding-bottom: 6px;
+}
+
+.footer {
+    padding: 16px;
+    text-align: center;
+    color: #555;
+    font-size: 14px;
+    font-family: 'BoldFont';
+}
+
+#btn-back {
+    width: 100%;
+    padding: 8px 24px;
+    text-align: center;
+    color: white;
+    background-color: #0fa27e;
+    outline: none;
+    border: 0px;
+    border-radius: 8px;
+    margin-top: 24px;
+    transition: all 0.18s;
+    font-family: 'BoldFont';
+}
+
+#btn-back:hover {
+    background-color: #0ad19f;
+}
+
+.update-title {
+    font-weight: bold;
+    font-family: 'BoldFont';
+    cursor: pointer;
+}
+
+.update-version {
+    font-weight: bold;
+}
+
+#show-control {
+    padding: 4px;
+    border-radius: 6px;
+    transition: all 0.18s;
+    cursor: pointer;
+}
+
+#show-control:hover {
+    background-color: #ddd;
+}
+
+.update-item > div {
+    transition: all 0.36s;
+}
+
+.update-hide {
+    overflow: hidden;
+    max-height: 0px;
+}
+
+.expand {
+    max-height: 400px;
+}

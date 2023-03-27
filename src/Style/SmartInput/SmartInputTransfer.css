@@ -1,0 +1,51 @@
+#smart-input-transfer {
+    position: absolute;
+    width: 40%;
+    height: 240px;
+    top: calc(50% - 120px);
+    left: calc(50% - 20%);
+    background-color: white;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    box-shadow: 0px 0px 12px #7fa39abb;
+    transition: all 0.18s;
+}
+
+#smart-input-transfer > #smart-input-transfer-title {
+    font-weight: bold;
+    font-family: 'BoldFont';
+    padding: 8px 16px;
+    border-bottom: 2px solid #f1f1f1;
+}
+
+#smart-input-transfer > textarea {
+    outline: none;
+    border: 0;
+    width: calc(100% - 36px);
+    height: calc(100% - 20px - 42px);
+    resize: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+}
+
+#smart-input-transfer > #smart-input-transfer-desc {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    font-size: 14px;
+}
+
+#smart-input-transfer > #smart-input-transfer-desc > span {
+    font-size: 10px;
+    padding: 2px 4px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #f1f1f1;
+}
+
+.show {
+    opacity: 1;
+}
+.hide {
+    opacity: 0;
+}

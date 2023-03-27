@@ -60,3 +60,21 @@
     background-color: #00b685;
     box-shadow: 0 0 16px #bbb;
 }
+
+#float-btm-about {
+    position: absolute;
+    border-radius: 90px;
+    width: 45px;
+    height: 45px;
+    outline: none;
+    border: 2px solid #009970;
+    background-color: #00b685;
+    transition: all 0.18s;
+    bottom: 126px;
+    right: 20px;
+}
+
+#float-btm-about:hover {
+    background-color: #00926b;
+    box-shadow: 0 0 16px #b2fae7;
+}

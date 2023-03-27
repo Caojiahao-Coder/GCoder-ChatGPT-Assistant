@@ -1,14 +1,15 @@
-import { Col, message, Row, Spin, Checkbox, Space, Button } from 'antd';
+import { Col, message, Row, Checkbox, Button, FloatButton } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import '../Style/App.css';
 import '../Style/Site.css';
-import { SendOutlined } from '@ant-design/icons';
+import { SendOutlined, BulbOutlined } from '@ant-design/icons';
 import { useStateCallback } from '../Hooks/useStateCallback';
 import MsgItemGroup from '../Components/MsgItemGroup';
 import { changeKeepSession } from '../Api/OpenAI';
 import UpdatePrompt from '../Components/UpdatePrompt';
 import SmartInputHit from '../Components/SmartInputHit';
 import SmartInputSql from '../Components/SmartInput/SmartInputSQL';
+import SmartInputTransfer from '../Components/SmartInput/SmartInputTransfer';
 
 const App = () => {
     //#region 常量的Key Code
@@ -36,6 +37,8 @@ const App = () => {
     const [showSmartInputHit, setShowSmartInputHit] = useState(false);
 
     const [showSmartInputSql, setShowSmartInputSql] = useState(false);
+
+    const [showSmartInputTransfer, setShowSmartInputTransfer] = useState(false);
 
     //输入框的Ref
     const searchRef = useRef();
@@ -135,7 +138,8 @@ const App = () => {
             if (
                 (elem.id && elem.id === 'search-msg-history') ||
                 elem.id === 'smart-input-hit' ||
-                elem.id === 'smart-input-sql'
+                elem.id === 'smart-input-sql' ||
+                elem.id === 'smart-input-transfer'
             ) {
                 return;
             }
@@ -144,11 +148,13 @@ const App = () => {
         setShowSmartInputHit(false);
         setShowHistoryDialog(false);
         setShowSmartInputSql(false);
+        setShowSmartInputTransfer(false);
     };
 
     return (
         <div
             style={{
+                position: 'relative',
                 height: '100%',
             }}
         >
@@ -217,6 +223,9 @@ const App = () => {
                                         switch (item) {
                                             case 'create_sql':
                                                 setShowSmartInputSql(true);
+                                                break;
+                                            case 'transfer':
+                                                setShowSmartInputTransfer(true);
                                                 break;
                                         }
                                     }}
@@ -313,23 +322,48 @@ const App = () => {
                 </div>
             </div>
 
-            <div id="footer">
-                Design by: Jiahao Cao. Power by: OpenAI API. Model: gpt-3.5-turbo
-                <div style={{ marginTop: 6 }} />
-                Copyright © Jiahao Cao.
-            </div>
-
             <UpdatePrompt />
 
             <SmartInputSql
                 isShow={showSmartInputSql}
                 onSubmit={(content) => {
                     setMsg(content);
-                    searchRef.current.focus();
                     setShowSmartInputSql(false);
+                    setSearchInputFocus();
                 }}
-                onCancel={() => setShowSmartInputSql(false)}
+                onCancel={() => {
+                    setShowSmartInputSql(false);
+                    setSearchInputFocus();
+                }}
             />
+
+            <SmartInputTransfer
+                isShow={showSmartInputTransfer}
+                onSubmit={(content) => {
+                    setMsg(content);
+                    setShowSmartInputTransfer(false);
+                    setSearchInputFocus();
+                }}
+                onCancel={() => {
+                    setShowSmartInputTransfer(false);
+                    setSearchInputFocus();
+                }}
+            />
+
+            <button
+                id="float-btm-about"
+                onClick={() => {
+                    window.location.href = '/about';
+                }}
+            >
+                <BulbOutlined style={{ color: 'white' }} />
+            </button>
+
+            <div id="footer">
+                Design by: Jiahao Cao. Power by: OpenAI API. Model: gpt-3.5-turbo
+                <div style={{ marginTop: 6 }} />
+                Copyright © 2023 Jiahao Cao. All rights reserved.
+            </div>
         </div>
     );
 };

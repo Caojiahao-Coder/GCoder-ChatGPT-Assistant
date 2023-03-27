@@ -6,8 +6,8 @@
     left: calc(50% - 20%);
     background-color: white;
     border-radius: 8px;
-    border: 2px solid #f1f1f1;
-    box-shadow: 0px 0px 36px #7fa39a;
+    border: 2px solid #ddd;
+    box-shadow: 0px 0px 12px #7fa39abb;
     transition: all 0.18s;
 }
 
