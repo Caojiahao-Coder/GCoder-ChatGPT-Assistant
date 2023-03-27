@@ -1,0 +1,100 @@
+#smart-input-sql {
+    position: absolute;
+    width: 40%;
+    height: 240px;
+    top: calc(50% - 120px);
+    left: calc(50% - 20%);
+    background-color: white;
+    border-radius: 8px;
+    border: 2px solid #f1f1f1;
+    box-shadow: 0px 0px 36px #7fa39a;
+    transition: all 0.18s;
+}
+
+#smart-input-sql-title {
+    font-weight: bold;
+    font-family: 'BoldFont';
+    padding: 8px 16px;
+    border-bottom: 2px solid #f1f1f1;
+}
+
+#smart-input-sql-editor {
+    font-family: 'MainFont';
+    padding: 8px 16px;
+    width: calc(100% - 32px);
+    height: calc(100% - 16px - 42px - 34px);
+    border-radius: 4px;
+    outline: none;
+    border: 0px;
+    resize: none;
+}
+
+.smart-input-sql-editor {
+    padding: 12px 16px 0 16px;
+    outline: none;
+    border: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.smart-input-sql-editor > span {
+    width: 90px;
+    text-align: right;
+    height: 30px;
+    line-height: 30px;
+}
+
+.smart-input-sql-input {
+    flex: 1;
+    outline: none;
+    border: 0px;
+    border: 1px solid #f1f1f1;
+    border-radius: 2px;
+    padding: 2px 8px;
+    font-size: 16px;
+}
+
+.smart-input-sql-input:focus {
+    border: 1px solid #7fa39a;
+}
+
+.smart-input-sql-textarea {
+    flex: 1;
+    height: 52px;
+    outline: none;
+    border: 0px;
+    border: 1px solid #f1f1f1;
+    overflow-y: hidden;
+    resize: none;
+    line-height: 26px;
+    padding: 2px 8px;
+}
+
+#smart-input-sql-desc {
+    font-size: 10px;
+    color: #777;
+    font-weight: inherit;
+    height: 32px;
+    padding: 0 8px;
+    text-align: end;
+    line-height: 32px;
+    margin-top: 8px;
+    font-family: 'MainFont';
+}
+
+#smart-input-sql-desc > span {
+    font-size: 10px;
+    padding: 2px 4px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #f1f1f1;
+}
+
+.show {
+    opacity: 1;
+}
+
+.hide {
+    opacity: 0;
+    visibility: hidden;
+}

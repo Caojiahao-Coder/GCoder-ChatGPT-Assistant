@@ -8,6 +8,7 @@ import MsgItemGroup from '../Components/MsgItemGroup';
 import { changeKeepSession } from '../Api/OpenAI';
 import UpdatePrompt from '../Components/UpdatePrompt';
 import SmartInputHit from '../Components/SmartInputHit';
+import SmartInputSql from '../Components/SmartInput/SmartInputSQL';
 
 const App = () => {
     //#region 常量的Key Code
@@ -33,6 +34,8 @@ const App = () => {
 
     //智能搜索框
     const [showSmartInputHit, setShowSmartInputHit] = useState(false);
+
+    const [showSmartInputSql, setShowSmartInputSql] = useState(false);
 
     //输入框的Ref
     const searchRef = useRef();
@@ -129,13 +132,18 @@ const App = () => {
     const onOtherViewClick = (e) => {
         var elem = e.target;
         while (elem) {
-            if ((elem.id && elem.id === 'search-msg-history') || elem.id === 'smart-input-hit') {
+            if (
+                (elem.id && elem.id === 'search-msg-history') ||
+                elem.id === 'smart-input-hit' ||
+                elem.id === 'smart-input-sql'
+            ) {
                 return;
             }
             elem = elem.parentNode;
         }
         setShowSmartInputHit(false);
         setShowHistoryDialog(false);
+        setShowSmartInputSql(false);
     };
 
     return (
@@ -205,7 +213,13 @@ const App = () => {
                                         ];
                                     }}
                                     show={showSmartInputHit}
-                                    submit={(item) => message.info('智能输入功能正在开发中...')}
+                                    submit={(item) => {
+                                        switch (item) {
+                                            case 'create_sql':
+                                                setShowSmartInputSql(true);
+                                                break;
+                                        }
+                                    }}
                                     onCancel={() => {
                                         setShowSmartInputHit(false);
                                         setSearchInputFocus();
@@ -306,6 +320,16 @@ const App = () => {
             </div>
 
             <UpdatePrompt />
+
+            <SmartInputSql
+                isShow={showSmartInputSql}
+                onSubmit={(content) => {
+                    setMsg(content);
+                    searchRef.current.focus();
+                    setShowSmartInputSql(false);
+                }}
+                onCancel={() => setShowSmartInputSql(false)}
+            />
         </div>
     );
 };
