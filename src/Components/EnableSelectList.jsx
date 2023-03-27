@@ -9,17 +9,16 @@ import '../Style/EnableSelectList.css';
  */
 const EnableSelectList = (props) => {
     const [dataList, setDataList] = useState(props.dataSource);
-    const [isShow, setIsShow] = useStateCallback(false);
 
     const inputRef = useRef();
+    const listRef = useRef();
 
     let curSelectedIndex = 0;
 
     useEffect(() => {
         setDataList(props.dataSource);
-        setIsShow(props.isShow);
 
-        const input = document.getElementById('enable-select-input');
+        const input = inputRef.current;
 
         if (props.isShow && inputRef.current)
             setTimeout(() => {
@@ -47,12 +46,12 @@ const EnableSelectList = (props) => {
             case 'ArrowUp':
                 curSelectedIndex--;
                 curSelectedIndex = Math.max(0, curSelectedIndex);
-                markItem(document.getElementById('enable-select-list').querySelectorAll('li'));
+                markItem(listRef.current.querySelectorAll('li'));
                 break;
             case 'ArrowDown':
                 curSelectedIndex++;
                 curSelectedIndex = Math.min(dataList.length - 1, curSelectedIndex);
-                markItem(document.getElementById('enable-select-list').querySelectorAll('li'));
+                markItem(listRef.current.querySelectorAll('li'));
                 break;
             case 'Escape':
                 props.onCancel();
@@ -85,16 +84,14 @@ const EnableSelectList = (props) => {
     return (
         <div id="enable-select-list-root">
             <input id="enable-select-input" ref={inputRef} autoFocus={true} autoComplete="off" />
-            <ul id="enable-select-list">
+            <ul id="enable-select-list" ref={listRef}>
                 {dataList.map((item, index) => (
                     <li
                         className={index === 0 ? 'selected' : ''}
                         key={index}
                         onClick={() => {
                             curSelectedIndex = index;
-                            markItem(
-                                document.getElementById('enable-select-list').querySelectorAll('li')
-                            );
+                            markItem(listRef.current.querySelectorAll('li'));
                             setTimeout(() => onClickItem(item.value), 50);
                         }}
                     >

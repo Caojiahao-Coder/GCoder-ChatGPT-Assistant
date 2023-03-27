@@ -12,26 +12,20 @@ const SmartInputHit = (props) => {
     }, [props.show, props.dataSource]);
 
     return (
-        <>
-            {show ? (
-                <div id="smart-input-hit">
-                    <div id="smart-input-hit-title">{props.title}</div>
-                    <div id="smart-input-hit-content">
-                        <EnableSelectList
-                            dataSource={dataSource}
-                            isShow={show}
-                            onCancel={() => props.onCancel()}
-                            submitCallback={(value) => {
-                                props.submit(value);
-                                props.onCancel();
-                            }}
-                        />
-                    </div>
-                </div>
-            ) : (
-                <></>
-            )}
-        </>
+        <div id="smart-input-hit" className={show ? 'show' : 'hide'}>
+            <div id="smart-input-hit-title">{props.title}</div>
+            <div id="smart-input-hit-content">
+                <EnableSelectList
+                    dataSource={dataSource}
+                    isShow={show}
+                    onCancel={() => props.onCancel()}
+                    submitCallback={(value) => {
+                        props.submit(value);
+                        props.onCancel();
+                    }}
+                />
+            </div>
+        </div>
     );
 };
 export default SmartInputHit;

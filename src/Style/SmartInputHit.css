@@ -6,7 +6,7 @@
     position: absolute;
     border: 2px solid #f1f1f1;
     box-shadow: 0 0 12px #70a59784;
-    transition: all 0.36s;
+    transition: all 0.18s;
     border-radius: 8px;
 }
 
@@ -18,4 +18,13 @@
     background-color: #f8f8f8;
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
+}
+
+.show {
+    opacity: 1;
+}
+
+.hide {
+    opacity: 0;
+    visibility: hidden;
 }
