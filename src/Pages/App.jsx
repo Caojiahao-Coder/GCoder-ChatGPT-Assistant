@@ -1,4 +1,4 @@
-import { Col, message, Row, Checkbox, Button, FloatButton } from 'antd';
+import { Col, message, Row, Checkbox, Button } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import '../Style/App.css';
 import '../Style/Site.css';
@@ -17,7 +17,6 @@ const App = () => {
     const UP_KEY = 'ArrowUp';
     const ESC_KEY = 'Escape';
     const SMART_HOT_KEY_EN = '/';
-    const SMART_HOT_KEY_CN = 229;
     //#endregion
 
     //存储当前用户输入的Msg
@@ -273,7 +272,7 @@ const App = () => {
                                             }
 
                                             //显示智能输入框
-                                            if (e.key === SMART_HOT_KEY_EN) {
+                                            if (e.key === SMART_HOT_KEY_EN && e.ctrlKey) {
                                                 e.preventDefault();
                                                 setShowHistoryDialog(false);
                                                 setShowSmartInputHit(true);
