@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { useStateCallback } from '../Hooks/useStateCallback';
 import '../Style/EnableSelectList.css';
+import { theme } from 'antd';
+const { useToken } = theme;
 
 /**
  * 可选择List
@@ -8,6 +9,8 @@ import '../Style/EnableSelectList.css';
  * @returns
  */
 const EnableSelectList = (props) => {
+    const { token } = useToken();
+
     const [dataList, setDataList] = useState(props.dataSource);
 
     const inputRef = useRef();
@@ -91,6 +94,11 @@ const EnableSelectList = (props) => {
             <ul id="enable-select-list" ref={listRef}>
                 {dataList.map((item, index) => (
                     <li
+                        style={{
+                            backgroundColor: token.colorBgContainer,
+                            padding: token.padding,
+                            color: token.colorText,
+                        }}
                         className={index === 0 ? 'selected' : ''}
                         key={index}
                         onClick={() => {

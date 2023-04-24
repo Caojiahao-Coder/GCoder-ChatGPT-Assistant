@@ -21,13 +21,7 @@
 }
 
 #enable-select-list-root > #enable-select-list > li {
-    padding: 8px 16px;
     cursor: pointer;
-}
-
-#enable-select-list-root > #enable-select-list > li:last-child {
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
 }
 
 #enable-select-list-root > #enable-select-list > .selected {

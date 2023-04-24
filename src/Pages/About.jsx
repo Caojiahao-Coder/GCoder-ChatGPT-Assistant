@@ -1,10 +1,12 @@
-import { Col, Row, Tag } from 'antd';
+import { Col, Row, Tag, theme } from 'antd';
 import '../Style/About.css';
 import jsonData from '../Static/UpdateLog.json';
 import UpdateItem from '../Components/UpdateItem';
 import FeatureItem from '../Components/FeatureItem';
-
+const { useToken } = theme;
 const About = () => {
+    const { token } = useToken();
+
     const featuresList = [
         {
             content: '基础聊天回答',
@@ -36,12 +38,12 @@ const About = () => {
         },
         {
             content: '适配深色模式',
-            done: false,
+            done: true,
         },
     ];
 
     return (
-        <>
+        <div style={{ backgroundColor: token.colorBgLayout }}>
             <Row gutter={24}>
                 <Col
                     xs={{ span: 24, offset: 0 }}
@@ -51,8 +53,16 @@ const About = () => {
                     xl={{ span: 18, offset: 3 }}
                     xxl={{ span: 18, offset: 3 }}
                 >
-                    <div id="about-root">
-                        <div id="about-content">
+                    <div
+                        id="about-root"
+                        style={{
+                            backgroundColor: token.colorBgContainer,
+                            padding: token.padding,
+                            boxShadow: token.boxShadow,
+                            borderRadius: token.borderRadius,
+                        }}
+                    >
+                        <div id="about-content" style={{ color: token.colorText }}>
                             <h2>项目信息</h2>
                             <div>一款基于OpenAI，ChatGPT API所开发的个人助手项目。</div>
                             <div>
@@ -63,7 +73,7 @@ const About = () => {
                             </div>
                             <div>
                                 模型：
-                                <Tag>gpt-3.5-turbo</Tag>
+                                <Tag color="blue-inverse">gpt-3.5-turbo</Tag>
                             </div>
                             <h2>Features</h2>
                             <ul>
@@ -74,8 +84,8 @@ const About = () => {
                                 ))}
                             </ul>
                         </div>
-                        <h1 style={{ marginTop: 24 }}>Update log</h1>
-                        <div>
+                        <h1 style={{ marginTop: 24, color: token.colorText }}>Update log</h1>
+                        <div style={{ color: token.colorText }}>
                             {jsonData.LogList.map((item, index) => (
                                 <UpdateItem
                                     item={item}
@@ -98,7 +108,7 @@ const About = () => {
             </Row>
 
             <div className="footer">Copyright © 2023 Jiahao Cao. All rights reserved.</div>
-        </>
+        </div>
     );
 };
 export default About;

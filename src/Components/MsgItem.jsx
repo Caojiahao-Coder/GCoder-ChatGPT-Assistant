@@ -1,9 +1,10 @@
-import { Col, Row, Skeleton, Space } from 'antd';
+import { Col, Row, Skeleton, Space, theme } from 'antd';
 import { useEffect, useState } from 'react';
 import { useStateCallback } from '../Hooks/useStateCallback';
 import MsgContent from './MsgContent';
 import '../Style/MsgItem.css';
 import { addAIAnswer, chatApi } from '../Api/OpenAI';
+const { useToken } = theme;
 
 /**
  * 消息对象
@@ -11,6 +12,8 @@ import { addAIAnswer, chatApi } from '../Api/OpenAI';
  * @returns
  */
 const MsgItem = (props) => {
+    const { token } = useToken();
+
     const [msg, setMsg] = useStateCallback('');
     const [loading, setLoading] = useState(false);
     const [lockEdit, setLockEdit] = useState(false);
@@ -64,7 +67,10 @@ const MsgItem = (props) => {
             key={props.index}
             id={'msg-item-' + props.index}
             className="msg-item-root"
-            style={{ padding: '12px 0', backgroundColor: props.isUser ? '#fff' : '#f5f5f5' }}
+            style={{
+                padding: '12px 0',
+                backgroundColor: props.isUser ? token.colorBgContainer : token.colorBorderSecondary,
+            }}
         >
             <Row gutter={24} style={{ margin: 0 }}>
                 <Col
@@ -77,7 +83,7 @@ const MsgItem = (props) => {
                 >
                     <div>
                         <Space>
-                            <div className="sender-name ">
+                            <div className="sender-name" style={{ color: token.colorText }}>
                                 {props.isUser ? 'You' : 'ChatGPT AI'}
                             </div>
                         </Space>

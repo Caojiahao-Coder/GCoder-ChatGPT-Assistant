@@ -1,4 +1,4 @@
-import { message, Space, Tooltip } from 'antd';
+import { message, Space, Tooltip, theme } from 'antd';
 import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -6,11 +6,14 @@ import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useStateCallback } from '../Hooks/useStateCallback';
 import '../Style/MsgContent.css';
 import { EditOutlined, FrownOutlined } from '@ant-design/icons';
+const { useToken } = theme;
 
 /**
  * 使用Markdown来渲染的消息体 组件
  */
 const MsgContent = (props) => {
+    const { token } = useToken();
+
     const [content, setContent] = useStateCallback('');
 
     const [lockEdit, setLockEdit] = useState(false);
@@ -54,7 +57,10 @@ const MsgContent = (props) => {
                     <FrownOutlined style={{ color: '#ff4d4f', fontSize: '10px' }} />
                 </Space>
             ) : (
-                <div id="msg-content-root">
+                <div
+                    id="msg-content-root"
+                    style={{ color: token.colorText, lineHeight: token.lineHeight }}
+                >
                     {isEdit ? (
                         <></>
                     ) : (
@@ -83,9 +89,13 @@ const MsgContent = (props) => {
 
                     {props.isUser && !lockEdit ? (
                         <Space id="content-tools">
-                            <div className="tool-item">
+                            <div className="tool-item" style={{ marginTop: isEdit ? 7 : 0 }}>
                                 <Tooltip title="编辑当前会话内容">
-                                    <EditOutlined id="chat-edit" onClick={() => setIsEdit(true)} />
+                                    <EditOutlined
+                                        id="chat-edit"
+                                        color={token.colorText}
+                                        onClick={() => setIsEdit(true)}
+                                    />
                                 </Tooltip>
                             </div>
                         </Space>
@@ -97,6 +107,12 @@ const MsgContent = (props) => {
                         <input
                             id="chat-content-edit"
                             value={content}
+                            style={{
+                                color: token.colorText,
+                                backgroundColor: token.colorBgContainer,
+                                border: `1px solid ${token.colorBorder}`,
+                                borderRadius: token.borderRadius,
+                            }}
                             onChange={(e) => setContent(e.target.value)}
                             onKeyDown={(e) => {
                                 const keyCode = e.key.toString().toLowerCase();

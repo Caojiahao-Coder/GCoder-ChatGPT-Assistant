@@ -1,12 +1,15 @@
-import { message } from 'antd';
+import { message, theme } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import '../../Style/SmartInput/SmartInputSql.css';
+const { useToken } = theme;
 
 /**
  *
  * @returns
  */
 const SmartInputSql = (props) => {
+    const { token } = useToken();
+
     const [isShow, setIsShow] = useState(false);
 
     const nameRef = useRef();
@@ -86,40 +89,68 @@ const SmartInputSql = (props) => {
     }
 
     return (
-        <div id="smart-input-sql" className={isShow ? 'show' : 'hide'}>
-            <div id="smart-input-sql-title">智能生成SQL</div>
+        <div
+            id="smart-input-sql"
+            style={{
+                backgroundColor: token.colorBgContainer,
+                borderRadius: token.borderRadius,
+                boxShadow: token.boxShadow,
+            }}
+            className={isShow ? 'show' : 'hide'}
+        >
+            <div
+                id="smart-input-sql-title"
+                style={{ padding: token.padding, color: token.colorText }}
+            >
+                智能生成SQL
+            </div>
 
             <div>
-                <div className="smart-input-sql-editor">
-                    <span>表名称：</span>
+                <div className="smart-input-sql-editor" style={{ paddingTop: 0 }}>
+                    <span style={{ color: token.colorText }}>表名称：</span>
                     <input
                         id="input-name"
                         autoComplete="off"
                         ref={nameRef}
                         className="smart-input-sql-input"
                         onKeyDown={onInputKeyDown}
+                        style={{
+                            color: token.colorText,
+                            backgroundColor: token.colorBgContainer,
+                            border: `1px solid ${token.colorBorder}`,
+                        }}
                         placeholder="Table Name"
                     />
                 </div>
                 <div className="smart-input-sql-editor">
-                    <span>包含属性：</span>
+                    <span style={{ color: token.colorText }}>包含属性：</span>
                     <input
                         id="input-desc"
                         autoComplete="off"
                         ref={descRef}
                         className="smart-input-sql-input"
                         onKeyDown={onInputKeyDown}
+                        style={{
+                            color: token.colorText,
+                            backgroundColor: token.colorBgContainer,
+                            border: `1px solid ${token.colorBorder}`,
+                        }}
                         placeholder="包含常见属性"
                     />
                 </div>
                 <div className="smart-input-sql-editor">
-                    <span>附加要求：</span>
+                    <span style={{ color: token.colorText }}>附加要求：</span>
                     <textarea
                         id="input-params"
                         autoComplete="off"
                         onKeyDown={onInputKeyDown}
                         ref={paramsRef}
                         placeholder="其中ID需要为自增加模式"
+                        style={{
+                            color: token.colorText,
+                            backgroundColor: token.colorBgContainer,
+                            border: `1px solid ${token.colorBorder}`,
+                        }}
                         className="smart-input-sql-input smart-input-sql-textarea"
                     />
                 </div>

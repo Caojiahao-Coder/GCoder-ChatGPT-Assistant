@@ -2,55 +2,28 @@
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
-    border-left: 6px solid white;
 }
 
 #msg-list::-webkit-scrollbar {
-    width: 6px;
-}
-
-#msg-list::-webkit-scrollbar-track {
-    background-color: white;
-    border-left: 1px solid #f1f1f1;
-}
-
-#msg-list::-webkit-scrollbar-thumb {
-    background-color: #bbb;
-    border-radius: 16px;
+    width: 0;
 }
 
 #footer {
     z-index: 100;
     text-align: center;
-    color: #f1f1f1;
     font-family: 'MainFont';
-    font-weight: 500;
-    padding: 24px;
-    font-size: 16px;
-    background-color: #333;
 }
 
 #msg-input {
     width: calc(100% - 36px);
     outline: none;
-    border: 2px solid #70a5978a;
-    padding: 6px 12px;
-    border-radius: 8px;
     transition: all 0.18s;
-    font-weight: bold;
-    font-family: 'TitleFont';
-    background-color: white;
+    font-family: 'MainFont';
     cursor: text;
-}
-
-#msg-input:focus {
-    box-shadow: 0 0 16px #bbb;
 }
 
 #btn-send {
     width: 68px;
-    background-color: #3da78a;
-    color: white;
     margin-left: 12px;
     transition: all 0.36s;
     border: 2px solid #70a5978a;
@@ -58,7 +31,6 @@
 
 #btn-send:hover {
     background-color: #00b685;
-    box-shadow: 0 0 16px #bbb;
 }
 
 #float-btm-about {

@@ -1,8 +1,8 @@
-import { Col, message, Row, Checkbox, Button } from 'antd';
+import { Col, message, Row, Checkbox, Button, theme } from 'antd';
 import { useEffect, useRef, useState } from 'react';
-import '../Style/App.css';
+import '../Style/Home.css';
 import '../Style/Site.css';
-import { SendOutlined, BulbOutlined } from '@ant-design/icons';
+import { SendOutlined } from '@ant-design/icons';
 import { useStateCallback } from '../Hooks/useStateCallback';
 import MsgItemGroup from '../Components/MsgItemGroup';
 import { changeKeepSession } from '../Api/OpenAI';
@@ -11,7 +11,11 @@ import SmartInputHit from '../Components/SmartInputHit';
 import SmartInputSql from '../Components/SmartInput/SmartInputSQL';
 import SmartInputTransfer from '../Components/SmartInput/SmartInputTransfer';
 
-const App = () => {
+const { useToken } = theme;
+
+const Home = () => {
+    const { token } = useToken();
+
     //#region 常量的Key Code
     const ENTER_KEY = 'Enter';
     const UP_KEY = 'ArrowUp';
@@ -154,10 +158,10 @@ const App = () => {
         <div
             style={{
                 position: 'relative',
-                height: '100%',
+                backgroundColor: token.colorBgLayout,
             }}
         >
-            <div className="flex-col" style={{ height: '100%' }}>
+            <div className="flex-col" style={{ height: '100vh' }}>
                 <div id="msg-list">
                     {msgList.map((item, index) => (
                         <div key={index}>
@@ -172,7 +176,15 @@ const App = () => {
                     ))}
                 </div>
 
-                <div id="input-panel" style={{ padding: '16px 0', borderTop: '1px solid #f1f1f1' }}>
+                <div
+                    id="input-panel"
+                    style={{
+                        padding: `${token.padding}px 0`,
+                        borderTop: `1px solid ${token.colorBorder}`,
+                        backgroundColor: token.colorBgContainer,
+                        boxShadow: token.boxShadow,
+                    }}
+                >
                     <Row gutter={24} style={{ margin: 0 }}>
                         <Col
                             xs={{ span: 24, offset: 0 }}
@@ -245,6 +257,14 @@ const App = () => {
                                         placeholder={
                                             isLock ? 'ChatGPT-Thinking...' : '@ChatGPT - Message'
                                         }
+                                        style={{
+                                            backgroundColor: token.colorBgContainer,
+                                            color: token.colorText,
+                                            border: `2px solid ${token.colorBorder}`,
+                                            borderRadius: token.borderRadius,
+                                            fontSize: token.fontSizeLG,
+                                            lineHeight: token.lineHeight,
+                                        }}
                                         value={msg}
                                         onChange={(e) => setMsg(e.target.value)}
                                         onKeyDown={(e) => {
@@ -292,14 +312,16 @@ const App = () => {
                                                 style={{
                                                     lineHeight: '30px',
                                                     fontWeight: 'bold',
+                                                    color: token.colorText,
                                                 }}
                                             />
                                         }
                                     />
                                 </div>
 
-                                <div style={{ marginTop: 8, textAlign: 'right' }}>
+                                <div style={{ marginTop: token.margin, textAlign: 'right' }}>
                                     <Checkbox
+                                        style={{ color: token.colorText }}
                                         defaultChecked={
                                             localStorage.getItem('keepSession') === null
                                                 ? false
@@ -349,16 +371,15 @@ const App = () => {
                 }}
             />
 
-            <button
-                id="float-btm-about"
-                onClick={() => {
-                    window.location.href = '/about';
+            <div
+                id="footer"
+                style={{
+                    backgroundColor: token.colorBgLayout,
+                    color: token.colorText,
+                    padding: token.padding,
+                    lineHeight: token.lineHeightLG,
                 }}
             >
-                <BulbOutlined style={{ color: 'white' }} />
-            </button>
-
-            <div id="footer">
                 Design by: Jiahao Cao. Power by: OpenAI API. Model: gpt-3.5-turbo
                 <div style={{ marginTop: 6 }} />
                 Copyright © 2023 Jiahao Cao. All rights reserved.
@@ -366,4 +387,4 @@ const App = () => {
         </div>
     );
 };
-export default App;
+export default Home;

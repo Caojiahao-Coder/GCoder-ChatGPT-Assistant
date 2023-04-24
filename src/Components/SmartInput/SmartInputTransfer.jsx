@@ -1,12 +1,15 @@
-import { message } from 'antd';
+import { message, Tag, theme } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import '../../Style/SmartInput/SmartInputTransfer.css';
+const { useToken } = theme;
 
 /**
  * 翻译智能输入翻译
  * @returns
  */
 const SmartInputTransfer = (props) => {
+    const { token } = useToken();
+
     const [show, setShow] = useState(false);
 
     const inputRef = useRef();
@@ -47,11 +50,35 @@ const SmartInputTransfer = (props) => {
     }
 
     return (
-        <div id="smart-input-transfer" className={show ? 'show' : 'hide'}>
-            <div id="smart-input-transfer-title">智能单词翻译</div>
-            <textarea ref={inputRef} placeholder="请输入你要翻译的内容" onKeyDown={onKeyDown} />
-            <div id="smart-input-transfer-desc">
-                请输入 <span>Enter</span> 进行提交, <span>Esc</span> 可取消输入
+        <div
+            id="smart-input-transfer"
+            style={{
+                backgroundColor: token.colorBgContainer,
+                borderRadius: token.borderRadius,
+                boxShadow: token.boxShadow,
+            }}
+            className={show ? 'show' : 'hide'}
+        >
+            <div
+                id="smart-input-transfer-title"
+                style={{ padding: token.padding, color: token.colorText }}
+            >
+                智能单词翻译
+            </div>
+            <textarea
+                ref={inputRef}
+                placeholder="请输入你要翻译的内容"
+                onKeyDown={onKeyDown}
+                style={{
+                    padding: `0px ${token.padding}px ${token.padding}px ${token.padding}px`,
+                    color: token.colorText,
+                    backgroundColor: token.colorBgContainer,
+                    border: 0,
+                }}
+            />
+            <div id="smart-input-transfer-desc" style={{ color: token.colorText }}>
+                请输入 <span style={{ color: 'black' }}>Enter</span> 进行提交,{' '}
+                <span style={{ color: 'black' }}>Esc</span> 可取消输入
             </div>
         </div>
     );
