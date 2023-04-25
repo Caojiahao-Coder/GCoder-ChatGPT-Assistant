@@ -2,7 +2,7 @@ import { message, Space, Tooltip, theme } from 'antd';
 import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { vs, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useStateCallback } from '../Hooks/useStateCallback';
 import '../Style/MsgContent.css';
 import { EditOutlined, FrownOutlined } from '@ant-design/icons';
@@ -72,7 +72,14 @@ const MsgContent = (props) => {
                                     return !inline && match ? (
                                         <SyntaxHighlighter
                                             children={String(children).replace(/\n$/, '')}
-                                            style={vs}
+                                            style={
+                                                window.localStorage.getItem('theme')
+                                                    ? window.localStorage.getItem('theme') ===
+                                                      'dark'
+                                                        ? oneDark
+                                                        : vs
+                                                    : vs
+                                            }
                                             language={match[1]}
                                             PreTag="div"
                                             {...props}
